@@ -18,6 +18,9 @@ import org.osgi.framework.BundleContext;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
+import org.itrace.solvers.externallauncher.ExternalLauncher;
+import org.itrace.solvers.externallauncher.IExternalLauncher;
+
 import org.itrace.gaze.IGazeResponse;
 import org.itrace.gaze.IStyledTextGazeResponse;
 import org.itrace.gaze.handlers.IGazeHandler;
@@ -52,6 +55,9 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 	private IEventBroker eventBroker;
 	private Shell rootShell;
 
+    private IExternalLauncher externalLauncher;
+
+	
 	/**
 	 * The constructor
 	 */
@@ -68,6 +74,7 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 			}
 		}
 		connectionManager = new ConnectionManager();
+		externalLauncher = new ExternalLauncher();
 		// iTrace invokes the events to the Eventbroker and these events are subscribed
 		// in an order.
 		eventBroker = PlatformUI.getWorkbench().getService(IEventBroker.class);
@@ -76,6 +83,7 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 		eventBroker.subscribe("iTrace/sessionend", this);
 		xmlSolver = new XMLGazeExportSolver();
 		eventBroker.subscribe("iTrace/xmlOutput", xmlSolver);
+		eventBroker.subscribe("iTrace/externalLauncher", (ExternalLauncher) externalLauncher);
 	}
 
 	/*
@@ -155,6 +163,8 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 		String filename = directoryPath + "/itrace_eclipse-" + System.currentTimeMillis() + ".xml";
 		xmlSolver.config(filename, sessionId);
 		xmlSolver.init();
+		externalLauncher.config(sessionId);
+		externalLauncher.init();
 		isRecording = true;
 
 		Thread processThread = new Thread() {
@@ -176,6 +186,7 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 		connectionManager.endSocketConnection();
 		if (isRecording) {
 			xmlSolver.dispose();
+	        externalLauncher.dispose();
 		}
 		statusLineManager.setMessage("");
 		isConnected = false;
@@ -190,6 +201,8 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 		}
 
 		xmlSolver.dispose();
+        externalLauncher.dispose();
+
 		isRecording = false;
 		return true;
 	}

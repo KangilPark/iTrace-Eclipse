@@ -5,5 +5,7 @@ import java.util.List;
 
 public interface IExternalLauncher extends ISolver {
     void start();
+
+	void config(String sessionId);
 }
 

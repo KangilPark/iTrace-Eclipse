@@ -22,10 +22,15 @@ public class ExternalLauncher implements IExternalLauncher, EventHandler {
     	filenameSuffix = "-responses-" + devUsername + "-" + sessionID + ".csv";
     	this.sessionID = sessionID;
     }
+    public void config(String sessionID) {
+    	filenameSuffix = "-responses-" + sessionID + ".csv";
+    	this.sessionID = sessionID;
+    }
     
     public String getFilename(String prefix) {
         String workspaceLocation = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
-        return workspaceLocation + "/" + sessionID + "/" + prefix + filenameSuffix;
+        //return workspaceLocation + "/" + sessionID + "/" + prefix + filenameSuffix;
+        return workspaceLocation + "/" + prefix + filenameSuffix;
     }
     
     public void displayExportFile() {
@@ -64,13 +69,13 @@ public class ExternalLauncher implements IExternalLauncher, EventHandler {
         // TODO: Make these paths configurable.
         
         try {
-        	affectivaProcess = new ProcessBuilder("cmd", "/k", "start", "C:\\Files\\AffectivaGSRFinal\\iTrace-Archive-SessionTimeServ\\iTraceAffectiva.exe", getFilename("affectiva")).start();
+        	affectivaProcess = new ProcessBuilder("cmd", "/k", "start", "C:\\EmotionalAwareness-Environment\\iTrace-Archive-SessionTimeServ\\iTraceAffectivaPortTest.exe", getFilename("affectiva")).start();
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
         
         try {
-	        shimmerProcess = new ProcessBuilder("C:\\Files\\AffectivaGSRFinal\\iTrace-Archive-SessionTimeServ\\iTraceShimmerCapture.exe", getFilename("shimmer")).start();
+	        shimmerProcess = new ProcessBuilder("C:\\EmotionalAwareness-Environment\\iTrace-Archive-SessionTimeServ\\iTraceShimmerCapturePortTest.exe", getFilename("shimmer")).start();
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
