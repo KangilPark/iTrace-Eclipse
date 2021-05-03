@@ -29,7 +29,8 @@ public class ExternalLauncher implements IExternalLauncher, EventHandler {
     
     public String getFilename(String prefix) {
         String workspaceLocation = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
-        //return workspaceLocation + "/" + sessionID + "/" + prefix + filenameSuffix;
+        //return workspaceLocation + "/" + sessionID + "/" + prefix + filenameSuffix;\
+        System.out.println( workspaceLocation + "/" + prefix + filenameSuffix);
         return workspaceLocation + "/" + prefix + filenameSuffix;
     }
     
@@ -69,8 +70,9 @@ public class ExternalLauncher implements IExternalLauncher, EventHandler {
         // TODO: Make these paths configurable.
         
         try {
-        	affectivaProcess = new ProcessBuilder("cmd", "/k", "start", "C:\\EmotionalAwareness-Environment\\iTrace-Archive-SessionTimeServ\\iTraceAffectivaPortTest.exe", getFilename("affectiva")).start();
-		} catch(IOException e) {
+        	//affectivaProcess = new ProcessBuilder("cmd", "/k", "start", "C:\\EmotionalAwareness-Environment\\iTrace-Archive-SessionTimeServ\\iTraceAffectivaPortTest.exe", getFilename("affectiva")).start();
+        	affectivaProcess = new ProcessBuilder("cmd", "/k", "start", "C:\\EmotionalAwareness-Environment\\Archive-to-Master-Port\\iTrace-Archive-Affectiva\\Affectiva\\bin\\x64\\Debug\\Affectiva.exe", getFilename("affectiva")).start();
+        } catch(IOException e) {
 			e.printStackTrace();
 		}
         
