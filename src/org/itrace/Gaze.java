@@ -51,6 +51,10 @@ public class Gaze {
     public double getY() {
         return y;
     }
+    
+    public long getSystemTime() {
+    	return systemTime;
+    }
 
     public long getEventTime() {
         return eventTime;

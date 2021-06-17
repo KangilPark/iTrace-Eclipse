@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=itrace&amp;ivyXmlPath=ivy.xml&amp;confs=*"/>
-	<classpathentry kind="lib" path="C:/Users/SERESL/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/SERESL/.ivy2/cache/org.functionaljava/functionaljava/jars/functionaljava-4.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/SERESL/.ivy2/cache/com.google.code.gson/gson/jars/gson-2.2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/SERESL/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/SERESL/.ivy2/cache/org.functionaljava/functionaljava/jars/functionaljava-4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/SERESL/.ivy2/cache/com.google.code.gson/gson/jars/gson-2.2.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/TETJavaClient.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

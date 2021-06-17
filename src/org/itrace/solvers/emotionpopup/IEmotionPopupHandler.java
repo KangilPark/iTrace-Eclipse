@@ -9,4 +9,6 @@ public interface IEmotionPopupHandler extends ISolver {
     void disable();
     
     void enable();
+
+	void config(String sessionId);
 }

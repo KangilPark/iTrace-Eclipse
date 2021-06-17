@@ -61,7 +61,7 @@ public class EmotionPopupWindow extends Thread {
     }
     
     public static ImageIcon getImageIcon(String name) {
-    	Bundle bundle = Platform.getBundle("edu.ysu.itrace");
+    	Bundle bundle = Platform.getBundle("org.itrace");
     	URL url = FileLocator.find(bundle, new Path("res/" + name + ".png"), null);
     	Image image = null;
     	try {

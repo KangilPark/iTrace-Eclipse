@@ -101,12 +101,16 @@ public class EmotionPopupHandler implements IEmotionPopupHandler, EventHandler {
     			"-" + sessionID + ".json";
     	this.sessionID = sessionID;
     }
+    public void config(String sessionID) {
+    	filename = "emotion-responses-" + sessionID + ".json";
+    	this.sessionID = sessionID;
+    }
     
     public String getFilename() {
         String workspaceLocation =
                 ResourcesPlugin.getWorkspace().getRoot().getLocation()
                         .toString();
-        return workspaceLocation + "/" + sessionID + "/" + filename;
+        return workspaceLocation + "/" + filename;
     }
 
     @Override
@@ -149,16 +153,16 @@ public class EmotionPopupHandler implements IEmotionPopupHandler, EventHandler {
     public void writeResponse(IGazeResponse response, String emotion, String[] options) {
         try {
                 responseWriter.beginObject()    
-                              .name("popup_session_time")
-                              .value(response.getGaze().getSessionTime())
-                              .name("popup_tracker_time")
-                              .value(response.getGaze().getTrackerTime())
+//                              .name("popup_session_time")
+//                              .value(response.getGaze().getSessionTime())
+                              .name("popup_event_time")
+                              .value(response.getGaze().getEventTime())
                               .name("popup_system_time")
                               .value(response.getGaze().getSystemTime())
-                              .name("response_session_time")
-                              .value(lastGazeResponse.getGaze().getSessionTime())
-                              .name("response_tracker_time")
-                              .value(lastGazeResponse.getGaze().getTrackerTime())
+//                              .name("response_session_time")
+//                              .value(lastGazeResponse.getGaze().getSessionTime())
+                              .name("response_event_time")
+                              .value(lastGazeResponse.getGaze().getEventTime())
                               .name("response_system_time")
                               .value(lastGazeResponse.getGaze().getSystemTime())
                               .name("selected_emotion")
