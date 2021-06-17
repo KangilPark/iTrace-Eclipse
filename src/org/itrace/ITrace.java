@@ -26,6 +26,8 @@ import org.itrace.gaze.IStyledTextGazeResponse;
 import org.itrace.gaze.handlers.IGazeHandler;
 import org.itrace.gaze.handlers.StyledTextGazeHandler;
 import org.itrace.solvers.XMLGazeExportSolver;
+import org.itrace.solvers.emotionpopup.EmotionPopupHandler;
+import org.itrace.solvers.emotionpopup.IEmotionPopupHandler;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -56,6 +58,7 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 	private Shell rootShell;
 
     private IExternalLauncher externalLauncher;
+    private IEmotionPopupHandler emotionPopupHandler;
 
 	
 	/**
@@ -75,6 +78,7 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 		}
 		connectionManager = new ConnectionManager();
 		externalLauncher = new ExternalLauncher();
+		emotionPopupHandler = new EmotionPopupHandler();
 		// iTrace invokes the events to the Eventbroker and these events are subscribed
 		// in an order.
 		eventBroker = PlatformUI.getWorkbench().getService(IEventBroker.class);
@@ -84,6 +88,7 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 		xmlSolver = new XMLGazeExportSolver();
 		eventBroker.subscribe("iTrace/xmlOutput", xmlSolver);
 		eventBroker.subscribe("iTrace/externalLauncher", (ExternalLauncher) externalLauncher);
+        eventBroker.subscribe("iTrace/emotionPopup", (EmotionPopupHandler) emotionPopupHandler);
 	}
 
 	/*
@@ -165,6 +170,8 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 		xmlSolver.init();
 		externalLauncher.config(sessionId);
 		externalLauncher.init();
+		emotionPopupHandler.config(sessionId);
+		emotionPopupHandler.init();
 		isRecording = true;
 
 		Thread processThread = new Thread() {
@@ -187,6 +194,7 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 		if (isRecording) {
 			xmlSolver.dispose();
 	        externalLauncher.dispose();
+	        emotionPopupHandler.dispose();
 		}
 		statusLineManager.setMessage("");
 		isConnected = false;
@@ -202,6 +210,7 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 
 		xmlSolver.dispose();
         externalLauncher.dispose();
+        emotionPopupHandler.dispose();
 
 		isRecording = false;
 		return true;
@@ -306,7 +315,8 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 								response = handleGaze(screenX, screenY, g);
 								if (response != null) {
 									xmlSolver.process(response);
-
+									eventBroker.post("iTrace/emotionPopup", response);
+									
 									if (response instanceof IStyledTextGazeResponse && response != null
 											&& showTokenHighlights) {
 										IStyledTextGazeResponse styledTextResponse = (IStyledTextGazeResponse) response;

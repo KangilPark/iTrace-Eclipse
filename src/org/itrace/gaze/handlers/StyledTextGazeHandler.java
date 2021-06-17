@@ -45,7 +45,7 @@ public class StyledTextGazeHandler implements IGazeHandler {
             int foldedLineIndex = targetStyledText.getLineIndex(relativeY);
             int lineOffset = targetStyledText.getOffsetAtLine(foldedLineIndex);   
             
-            int offset = targetStyledText.getOffsetAtPoint(new Point(relativeX, relativeY));
+            int offset = targetStyledText.getOffsetAtLocation(new Point(relativeX, relativeY));
             if(offset == -1) {
             	return null;
             }
