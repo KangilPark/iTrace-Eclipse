@@ -20,7 +20,8 @@ import org.osgi.service.event.EventHandler;
 
 import org.itrace.solvers.externallauncher.ExternalLauncher;
 import org.itrace.solvers.externallauncher.IExternalLauncher;
-
+import org.itrace.solvers.keytracking.IKeyTrackingSolver;
+import org.itrace.solvers.keytracking.KeyTrackingSolver;
 import org.itrace.gaze.IGazeResponse;
 import org.itrace.gaze.IStyledTextGazeResponse;
 import org.itrace.gaze.handlers.IGazeHandler;
@@ -59,6 +60,7 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 
     private IExternalLauncher externalLauncher;
     private IEmotionPopupHandler emotionPopupHandler;
+    private IKeyTrackingSolver keyTracker;
 
 	
 	/**
@@ -79,6 +81,7 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 		connectionManager = new ConnectionManager();
 		externalLauncher = new ExternalLauncher();
 		emotionPopupHandler = new EmotionPopupHandler();
+		keyTracker = new KeyTrackingSolver();
 		// iTrace invokes the events to the Eventbroker and these events are subscribed
 		// in an order.
 		eventBroker = PlatformUI.getWorkbench().getService(IEventBroker.class);
@@ -89,6 +92,7 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 		eventBroker.subscribe("iTrace/xmlOutput", xmlSolver);
 		eventBroker.subscribe("iTrace/externalLauncher", (ExternalLauncher) externalLauncher);
         eventBroker.subscribe("iTrace/emotionPopup", (EmotionPopupHandler) emotionPopupHandler);
+        eventBroker.subscribe("iTrace/keyTracker", (KeyTrackingSolver) keyTracker);
 	}
 
 	/*
@@ -172,6 +176,8 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 		externalLauncher.init();
 		emotionPopupHandler.config(sessionId);
 		emotionPopupHandler.init();
+		keyTracker.config(sessionId);
+		keyTracker.init();
 		isRecording = true;
 
 		Thread processThread = new Thread() {
@@ -195,6 +201,7 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 			xmlSolver.dispose();
 	        externalLauncher.dispose();
 	        emotionPopupHandler.dispose();
+	        keyTracker.dispose();
 		}
 		statusLineManager.setMessage("");
 		isConnected = false;
@@ -211,6 +218,7 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 		xmlSolver.dispose();
         externalLauncher.dispose();
         emotionPopupHandler.dispose();
+        keyTracker.dispose();
 
 		isRecording = false;
 		return true;
@@ -316,7 +324,8 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 								if (response != null) {
 									xmlSolver.process(response);
 									eventBroker.post("iTrace/emotionPopup", response);
-									
+	                                eventBroker.post("iTrace/keyTracker", response);
+
 									if (response instanceof IStyledTextGazeResponse && response != null
 											&& showTokenHighlights) {
 										IStyledTextGazeResponse styledTextResponse = (IStyledTextGazeResponse) response;

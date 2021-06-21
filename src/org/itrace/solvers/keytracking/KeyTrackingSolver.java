@@ -104,12 +104,16 @@ public class KeyTrackingSolver implements IKeyTrackingSolver, EventHandler {
     			"-" + sessionID + ".json";
     	this.sessionID = sessionID;
     }
+    public void config(String sessionID) {
+    	filename = "key-responses-" + sessionID + ".json";
+    	this.sessionID = sessionID;
+    }
     
     public String getFilename() {
         String workspaceLocation =
                 ResourcesPlugin.getWorkspace().getRoot().getLocation()
                         .toString();
-        return workspaceLocation + "/" + sessionID + "/" + filename;
+        return workspaceLocation + "/" + filename;
     }
 
     @Override
