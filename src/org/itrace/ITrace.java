@@ -61,6 +61,7 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
     private IExternalLauncher externalLauncher;
     private IEmotionPopupHandler emotionPopupHandler;
     private IKeyTrackingSolver keyTracker;
+    private boolean externalLauncherToggle = false;
 
 	
 	/**
@@ -172,8 +173,10 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 		String filename = directoryPath + "/itrace_eclipse-" + System.currentTimeMillis() + ".xml";
 		xmlSolver.config(filename, sessionId);
 		xmlSolver.init();
-		externalLauncher.config(sessionId);
-		externalLauncher.init();
+		if (externalLauncherToggle) {
+			externalLauncher.config(sessionId);
+			externalLauncher.init();	
+		}
 		emotionPopupHandler.config(sessionId);
 		emotionPopupHandler.init();
 		keyTracker.config(sessionId);
@@ -261,6 +264,14 @@ public class ITrace extends AbstractUIPlugin implements EventHandler {
 		}
 		for (TokenHighlighter tokenHighlighter : tokenHighlighters.values()) {
 			tokenHighlighter.setShow(showTokenHighlights);
+		}
+	}
+	
+	public void toggleExternalLauncher() {
+		if(!externalLauncherToggle) {
+			externalLauncherToggle = true;
+		} else {
+			externalLauncherToggle = false;
 		}
 	}
 
