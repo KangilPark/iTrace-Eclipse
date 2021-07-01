@@ -36,7 +36,7 @@ public class EmotionPopupWindow extends Thread {
         
         // TODO: Data structure for icons that handles loading of images.
         String[] icons = {"Joy", "Anger", "Disgust", "Surprise", "Fear", "Sadness", "Contempt", "Neutral"};
-        //String[] icons = {"Circle", "Cross", "Diamond", "Heart", "Hexagon", "Octagon", "Square", "Triangle"};
+//      String[] icons = {"Circle", "Cross", "Diamond", "Heart", "Hexagon", "Octagon", "Square", "Triangle"};
         Collections.shuffle(Arrays.asList(icons));
         
         Object[] options = {EmotionPopupWindow.getImageIcon(icons[0]),

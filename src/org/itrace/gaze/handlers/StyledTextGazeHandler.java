@@ -3,7 +3,6 @@ package org.itrace.gaze.handlers;
 import java.io.IOException;
 
 import org.eclipse.jface.text.ITextOperationTarget;
-import org.eclipse.jface.text.source.projection.ProjectionViewer;
 //import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Point;
@@ -18,7 +17,7 @@ import org.itrace.gaze.IStyledTextGazeResponse;
 public class StyledTextGazeHandler implements IGazeHandler {
     private StyledText targetStyledText;
     private IEditorPart editor;
-    private ProjectionViewer projectionViewer;
+//    private ProjectionViewer projectionViewer;
 
     /**
      * Constructs a new gaze handler for the target StyledText object
@@ -26,7 +25,7 @@ public class StyledTextGazeHandler implements IGazeHandler {
     public StyledTextGazeHandler(Object target, IEditorPart editor) {
         this.targetStyledText = (StyledText) target;
         this.editor = editor;
-        projectionViewer = (ProjectionViewer) editor.getAdapter(ITextOperationTarget.class);
+//        projectionViewer = (ProjectionViewer) editor.getAdapter(ITextOperationTarget.class);
     }
 
     @Override
@@ -42,16 +41,17 @@ public class StyledTextGazeHandler implements IGazeHandler {
         try {
             // Get the actual offset of the current line from the top
             // Allows code folding to be taken into account
-            int foldedLineIndex = targetStyledText.getLineIndex(relativeY);
-            int lineOffset = targetStyledText.getOffsetAtLine(foldedLineIndex);   
-            
+            lineIndex = targetStyledText.getLineIndex(relativeY);
+            int lineOffset = targetStyledText.getOffsetAtLine(lineIndex);
+//          int foldedLineIndex = targetStyledText.getLineIndex(relativeY);
+//          int lineOffset = targetStyledText.getOffsetAtLine(foldedLineIndex);             
             int offset = targetStyledText.getOffsetAtLocation(new Point(relativeX, relativeY));
             if(offset == -1) {
             	return null;
             }
 
             col = offset - lineOffset + 1;
-            lineIndex = projectionViewer.widgetLine2ModelLine(foldedLineIndex);
+//            lineIndex = projectionViewer.widgetLine2ModelLine(foldedLineIndex);
             
             // (0, 0) relative to the control in absolute screen
             // coordinates.
